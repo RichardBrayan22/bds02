@@ -26,4 +26,14 @@ public class CityService {
         return cities.stream().map(city -> new ModelMapper().map(city, CityDTO.class)).collect(Collectors.toList());
     }
 
+    @Transactional
+    public CityDTO insert(CityDTO dto){
+        dto.setId(null);
+        ModelMapper mapper = new ModelMapper();
+        City entity = mapper.map(dto, City.class);
+        entity = repository.save(entity);
+        dto.setId(entity.getId());
+        return dto;
+    }
+
 }
